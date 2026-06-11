@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مانجا بلس - دليل المانجا العربي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --bg-card: #12121a;
+            --bg-hover: #1a1a2e;
+            --primary: #ff6b35;
+            --primary-hover: #ff8c5a;
+            --secondary: #e94560;
+            --text: #ffffff;
+            --text-muted: #8892b0;
+            --border: #1e2a4a;
+            --gradient: linear-gradient(135deg, #ff6b35 0%, #e94560 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            background: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 0.5rem;
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 0.8rem 1.2rem;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            background: var(--bg-card);
+            color: var(--text);
+            font-family: 'Cairo', sans-serif;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .search-box input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(255, 107, 53, 0.2);
+        }
+
+        .search-box input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .search-btn {
+            padding: 0.8rem 1.5rem;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 700;
+            transition: all 0.3s;
+        }
+
+        .search-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 25px rgba(255, 107, 53, 0.4);
+        }
+
+        /* Main */
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: linear-gradient(180deg, rgba(255,107,53,0.1) 0%, transparent 100%);
+            border-radius: 20px;
+            margin-bottom: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Section Title */
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 2rem 0 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 28px;
+            background: var(--gradient);
+            border-radius: 2px;
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Manga Grid */
+        .manga-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .manga-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid var(--border);
+            position: relative;
+        }
+
+        .manga-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(255, 107, 53, 0.15);
+            border-color: var(--primary);
+        }
+
+        .manga-cover {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .manga-info {
+            padding: 1rem;
+        }
+
+        .manga-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: 2.8em;
+        }
+
+        .manga-score {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            color: #ffd700;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .manga-chapters {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            margin-top: 0.3rem;
+        }
+
+        /* Manga Detail */
+        .manga-detail {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+
+        .manga-detail.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .detail-header {
+            display: flex;
+            gap: 2.5rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .detail-cover {
+            width: 280px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            flex-shrink: 0;
+        }
+
+        .detail-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .detail-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .detail-score {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.3rem;
+            color: #ffd700;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .detail-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .meta-item {
+            background: var(--bg-hover);
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .meta-item span {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .detail-description {
+            color: var(--text-muted);
+            line-height: 1.9;
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+
+        .detail-genres {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .genre-tag {
+            background: var(--gradient);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .back-btn {
+            background: var(--bg-hover);
+            color: var(--text);
+            border: 1px solid var(--border);
+            padding: 0.8rem 1.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        /* Official Links */
+        .official-links {
+            margin-top: 2rem;
+        }
+
+        .links-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .link-card {
+            background: var(--bg-hover);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            text-decoration: none;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            transition: all 0.3s;
+        }
+
+        .link-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.1);
+        }
+
+        .link-icon {
+            font-size: 1.5rem;
+        }
+
+        .link-text {
+            font-weight: 600;
+        }
+
+        .link-sub {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Characters */
+        .characters-section {
+            margin-top: 2.5rem;
+        }
+
+        .characters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .character-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            overflow: hidden;
+            text-align: center;
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+
+        .character-card:hover {
+            border-color: var(--primary);
+        }
+
+        .character-img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+        }
+
+        .character-name {
+            padding: 0.7rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* Ads Space */
+        .ads-space {
+            background: var(--bg-card);
+            border: 2px dashed var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            margin: 2rem 0;
+            color: var(--text-muted);
+        }
+
+        .ads-space p {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .ads-space small {
+            font-size: 0.85rem;
+        }
+
+        /* Error */
+        .error {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--secondary);
+        }
+
+        .error button {
+            margin-top: 1rem;
+            padding: 0.8rem 2rem;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            margin-top: 3rem;
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+            }
+
+            .search-box {
+                width: 100%;
+                max-width: none;
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .manga-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 1rem;
+            }
+
+            .detail-header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .detail-cover {
+                width: 200px;
+            }
+
+            .detail-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo" onclick="showHome()">
+                <span class="logo-icon">📚</span>
+                <span>مانجا بلس</span>
+            </div>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="ابحث عن مانجا..." onkeypress="if(event.key==='Enter') searchManga()">
+                <button class="search-btn" onclick="searchManga()">🔍 بحث</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Home View -->
+        <div id="homeView">
+            <div class="hero">
+                <h1>🎌 دليل المانجا العربي</h1>
+                <p>اكتشف آلاف المانجا، اقرأ المراجعات، وتابع أحدث الإصدارات - كل ذلك في مكان واحد</p>
+            </div>
+
+            <!-- Ads Space -->
+            <div class="ads-space">
+                <p>📢 مساحة إعلانية</p>
+                <small>يمكنك إضافة إعلانات Google AdSense هنا</small>
+            </div>
+
+            <div class="section-title">🔥 الأكثر شعبية</div>
+            <div id="popularManga" class="manga-grid">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>جاري تحميل المانجا...</p>
+                </div>
+            </div>
+
+            <div class="section-title">⭐ الأعلى تقييماً</div>
+            <div id="topManga" class="manga-grid">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>جاري التحميل...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Results -->
+        <div id="searchView" style="display:none;">
+            <div class="section-title">🔍 نتائج البحث</div>
+            <div id="searchResults" class="manga-grid"></div>
+        </div>
+
+        <!-- Manga Detail -->
+        <div id="mangaDetail" class="manga-detail">
+            <button class="back-btn" onclick="showHome()">← العودة للرئيسية</button>
+            <div class="detail-header">
+                <img id="detailCover" class="detail-cover" src="" alt="">
+                <div class="detail-info">
+                    <h1 id="detailTitle" class="detail-title"></h1>
+                    <div id="detailScore" class="detail-score"></div>
+                    <div id="detailMeta" class="detail-meta"></div>
+                    <div id="detailGenres" class="detail-genres"></div>
+                    <p id="detailDesc" class="detail-description"></p>
+
+                    <div class="official-links">
+                        <div class="links-title">🔗 روابط رسمية للقراءة</div>
+                        <div id="officialLinks" class="links-grid"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="characters-section">
+                <div class="section-title">👤 الشخصيات الرئيسية</div>
+                <div id="charactersGrid" class="characters-grid"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>📚 مانجا بلس - دليل المانجا العربي</p>
+        <p>البيانات من <a href="https://jikan.moe" target="_blank">Jikan API</a> | الموقع للأغراض التعليمية</p>
+    </footer>
+
+    <script>
+        const API_BASE = 'https://api.jikan.moe/v4';
+
+        // ========== HOME ==========
+        async function loadPopularManga() {
+            try {
+                const res = await fetch(`${API_BASE}/top/manga?filter=bypopularity&limit=20`);
+                const data = await res.json();
+                renderMangaGrid(data.data, 'popularManga');
+            } catch (e) {
+                document.getElementById('popularManga').innerHTML = `
+                    <div class="error">
+                        ❌ فشل التحميل<br>
+                        <button onclick="loadPopularManga()">إعادة المحاولة</button>
+                    </div>`;
+            }
+        }
+
+        async function loadTopManga() {
+            try {
+                const res = await fetch(`${API_BASE}/top/manga?limit=20`);
+                const data = await res.json();
+                renderMangaGrid(data.data, 'topManga');
+            } catch (e) {
+                document.getElementById('topManga').innerHTML = `
+                    <div class="error">
+                        ❌ فشل التحميل<br>
+                        <button onclick="loadTopManga()">إعادة المحاولة</button>
+                    </div>`;
+            }
+        }
+
+        function renderMangaGrid(mangaList, containerId) {
+            const container = document.getElementById(containerId);
+            if (!mangaList || mangaList.length === 0) {
+                container.innerHTML = '<div class="error">لا توجد نتائج</div>';
+                return;
+            }
+
+            container.innerHTML = mangaList.map(manga => {
+                const title = manga.title || manga.titles?.[0]?.title || 'بدون عنوان';
+                const image = manga.images?.jpg?.large_image_url || manga.images?.jpg?.image_url || 'https://via.placeholder.com/170x250/12121a/666?text=No+Cover';
+                const score = manga.score || '?';
+                const chapters = manga.chapters || '?';
+
+                return `
+                    <div class="manga-card" onclick="showMangaDetail(${manga.mal_id})">
+                        <img class="manga-cover" src="${image}" alt="${title}" loading="lazy">
+                        <div class="manga-info">
+                            <div class="manga-title">${title}</div>
+                            <div class="manga-score">⭐ ${score}</div>
+                            <div class="manga-chapters">📖 ${chapters} فصل</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ========== SEARCH ==========
+        async function searchManga() {
+            const query = document.getElementById('searchInput').value.trim();
+            if (!query) return;
+
+            document.getElementById('homeView').style.display = 'none';
+            document.getElementById('mangaDetail').classList.remove('active');
+            document.getElementById('searchView').style.display = 'block';
+
+            const container = document.getElementById('searchResults');
+            container.innerHTML = '<div class="loading"><div class="spinner"></div><p>جاري البحث...</p></div>';
+
+            try {
+                const res = await fetch(`${API_BASE}/manga?q=${encodeURIComponent(query)}&limit=24`);
+                const data = await res.json();
+                renderMangaGrid(data.data, 'searchResults');
+            } catch (e) {
+                container.innerHTML = '<div class="error">❌ فشل البحث</div>';
+            }
+        }
+
+        // ========== MANGA DETAIL ==========
+        async function showMangaDetail(mangaId) {
+            document.getElementById('homeView').style.display = 'none';
+            document.getElementById('searchView').style.display = 'none';
+            document.getElementById('mangaDetail').classList.add('active');
+
+            // Reset
+            document.getElementById('detailCover').src = '';
+            document.getElementById('detailTitle').textContent = 'جاري التحميل...';
+            document.getElementById('detailDesc').textContent = '';
+            document.getElementById('detailScore').innerHTML = '';
+            document.getElementById('detailMeta').innerHTML = '';
+            document.getElementById('detailGenres').innerHTML = '';
+            document.getElementById('officialLinks').innerHTML = '';
+            document.getElementById('charactersGrid').innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+
+            try {
+                // Get manga details
+                const res = await fetch(`${API_BASE}/manga/${mangaId}/full`);
+                const data = await res.json();
+                const manga = data.data;
+
+                const title = manga.title || 'بدون عنوان';
+                const image = manga.images?.jpg?.large_image_url || '';
+                const score = manga.score || 0;
+                const chapters = manga.chapters || '?';
+                const volumes = manga.volumes || '?';
+                const status = manga.status || '?';
+                const synopsis = manga.synopsis || 'لا يوجد وصف';
+                const genres = manga.genres || [];
+                const themes = manga.themes || [];
+                const demographics = manga.demographics || [];
+
+                document.getElementById('detailCover').src = image;
+                document.getElementById('detailTitle').textContent = title;
+                document.getElementById('detailScore').innerHTML = `⭐ ${score} / 10`;
+
+                document.getElementById('detailMeta').innerHTML = `
+                    <div class="meta-item">📖 <span>${chapters}</span> فصل</div>
+                    <div class="meta-item">📚 <span>${volumes}</span> مجلد</div>
+                    <div class="meta-item">📊 <span>${status}</span></div>
+                    <div class="meta-item">🏆 <span>Top ${manga.rank || '?'}</span></div>
+                `;
+
+                const allGenres = [...genres, ...themes, ...demographics].slice(0, 8);
+                document.getElementById('detailGenres').innerHTML = allGenres.map(g => 
+                    `<span class="genre-tag">${g.name}</span>`
+                ).join('');
+
+                document.getElementById('detailDesc').textContent = synopsis;
+
+                // Official links
+                const links = generateOfficialLinks(title, manga.title_english || title);
+                document.getElementById('officialLinks').innerHTML = links;
+
+                // Load characters
+                loadCharacters(mangaId);
+
+            } catch (e) {
+                document.getElementById('detailTitle').textContent = '❌ فشل التحميل';
+            }
+        }
+
+        function generateOfficialLinks(title, englishTitle) {
+            const encodedTitle = encodeURIComponent(englishTitle || title);
+
+            return `
+                <a href="https://mangaplus.shueisha.co.jp/search?word=${encodedTitle}" target="_blank" class="link-card">
+                    <span class="link-icon">📖</span>
+                    <div>
+                        <div class="link-text">MangaPlus</div>
+                        <div class="link-sub">قراءة مجانية رسمية</div>
+                    </div>
+                </a>
+                <a href="https://www.viz.com/search?search=${encodedTitle}" target="_blank" class="link-card">
+                    <span class="link-icon">📚</span>
+                    <div>
+                        <div class="link-text">VIZ Manga</div>
+                        <div class="link-sub">اشتراك رسمي</div>
+                    </div>
+                </a>
+                <a href="https://www.amazon.com/s?k=${encodedTitle}+manga" target="_blank" class="link-card">
+                    <span class="link-icon">🛒</span>
+                    <div>
+                        <div class="link-text">Amazon</div>
+                        <div class="link-sub">شراء المجلدات</div>
+                    </div>
+                </a>
+                <a href="https://www.crunchyroll.com/comics/manga" target="_blank" class="link-card">
+                    <span class="link-icon">🎬</span>
+                    <div>
+                        <div class="link-text">Crunchyroll</div>
+                        <div class="link-sub">مانجا رسمية</div>
+                    </div>
+                </a>
+            `;
+        }
+
+        async function loadCharacters(mangaId) {
+            try {
+                const res = await fetch(`${API_BASE}/manga/${mangaId}/characters`);
+                const data = await res.json();
+
+                const container = document.getElementById('charactersGrid');
+                if (!data.data || data.data.length === 0) {
+                    container.innerHTML = '<div class="error">لا توجد شخصيات</div>';
+                    return;
+                }
+
+                container.innerHTML = data.data.slice(0, 12).map(char => {
+                    const c = char.character;
+                    const name = c.name || 'بدون اسم';
+                    const img = c.images?.jpg?.image_url || 'https://via.placeholder.com/120x140/12121a/666?text=?';
+
+                    return `
+                        <div class="character-card">
+                            <img class="character-img" src="${img}" alt="${name}" loading="lazy">
+                            <div class="character-name">${name}</div>
+                        </div>
+                    `;
+                }).join('');
+
+            } catch (e) {
+                document.getElementById('charactersGrid').innerHTML = '<div class="error">❌ فشل تحميل الشخصيات</div>';
+            }
+        }
+
+        function showHome() {
+            document.getElementById('homeView').style.display = 'block';
+            document.getElementById('searchView').style.display = 'none';
+            document.getElementById('mangaDetail').classList.remove('active');
+            document.getElementById('searchInput').value = '';
+        }
+
+        // ========== INIT ==========
+        loadPopularManga();
+        loadTopManga();
+    </script>
+</body>
+</html>
